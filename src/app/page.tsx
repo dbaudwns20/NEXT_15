@@ -2,7 +2,7 @@
 
 import { addSampleUser, resetSampleUsers } from "@/actions/user.actions";
 import User from "@/types/user";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, FormEvent } from "react";
 import { useFormData } from "@/hooks"
 
 export default function Home() {
@@ -13,7 +13,9 @@ export default function Home() {
     phone: "",
   })
 
-  const addUser = async () => {
+  const addUser = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
     const res = await addSampleUser(newUser)
     if (!res.ok) alert(res.message) 
     else {
@@ -54,12 +56,12 @@ export default function Home() {
     <div className="p-3">
       <h1 className="text-2xl font-bold mb-3">API Route CSR Fetching</h1>
       <button type="button" className="bg-red-400 py-1.5 px-2 text-white shadow-lg hover:bg-red-500 text-sm rounded-md" onClick={resetUser}>RESET</button>
-      <div className="flex flex-row gap-3 p-3">
-        <input type="text" className="border border-gray-300 rounded-md p-1.5" placeholder="Name" onChange={(e) => setNewUser("name", e.target.value)} />
-        <input type="text" className="border border-gray-300 rounded-md p-1.5" placeholder="Username" onChange={(e) => setNewUser("username", e.target.value)} />
-        <input type="text" className="border border-gray-300 rounded-md p-1.5" placeholder="Phone" onChange={(e) => setNewUser("phone", e.target.value)} />
-        <button type="button" className="bg-green-400 py-1.5 px-2 text-white shadow-lg hover:bg-green-500 text-sm rounded-md" onClick={addUser}>ADD</button>
-      </div>
+      <form className="flex flex-row gap-3 p-3" onSubmit={addUser}>
+        <input type="text" className="border border-gray-300 rounded-md p-1.5" placeholder="Name" onChange={(e) => setNewUser("name", e.target.value)} required/>
+        <input type="text" className="border border-gray-300 rounded-md p-1.5" placeholder="Username" onChange={(e) => setNewUser("username", e.target.value)} required/>
+        <input type="text" className="border border-gray-300 rounded-md p-1.5" placeholder="Phone" onChange={(e) => setNewUser("phone", e.target.value)} required />
+        <button type="submit" className="bg-green-400 py-1.5 px-2 text-white shadow-lg hover:bg-green-500 text-sm rounded-md">ADD</button>
+      </form>
       <ul className="p-3">
         {users.map((user: User) => (
           <li key={user.id} className="p-3">
