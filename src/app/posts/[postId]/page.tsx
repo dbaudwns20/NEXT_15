@@ -23,7 +23,7 @@ export default async function ProductDetail({ params }: { params: { postId: stri
 
   return (
     <section className="p-3">
-      <h1 className="text-2xl font-bold mb-3">URL Fetching ISR</h1>
+      <h1 className="text-2xl font-bold mb-3">URL Fetching SSG</h1>
     <Suspense fallback={<p>Loading...</p>}>
       <div className="p-3">
         <h2 className="text-2xl font-bold mb-3">{post.title}</h2>
