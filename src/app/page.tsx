@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
 import { addSampleUser, resetSampleUsers } from "@/actions/user.actions";
 import User from "@/types/user";
 import { useCallback, useEffect, useState, FormEvent } from "react";
-import { useFormData } from "@/hooks"
+import { useFormData } from "@/hooks";
 
 export default function Home() {
   const [users, setUsers] = useState<User[]>([]);
@@ -11,17 +11,17 @@ export default function Home() {
     name: "",
     username: "",
     phone: "",
-  })
+  });
 
   const addUser = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const res = await addSampleUser(newUser)
-    if (!res.ok) alert(res.message) 
+    const res = await addSampleUser(newUser);
+    if (!res.ok) alert(res.message);
     else {
-      setUsers(res.data)
+      setUsers(res.data);
     }
-  }
+  };
 
   const deleteUser = async (userId: number) => {
     const response = await fetch(`/api/users/${userId}`, {
@@ -29,38 +29,67 @@ export default function Home() {
     });
     const data = await response.json();
     if (!response.ok) alert(data.message);
-    else getUser()
-  }
+    else getUser();
+  };
 
   const resetUser = async () => {
-    const res = await resetSampleUsers()
-    if (!res.ok) alert(res.message)
-    else getUser()
-  }
+    const res = await resetSampleUsers();
+    if (!res.ok) alert(res.message);
+    else getUser();
+  };
 
   const getUser = useCallback(() => {
     fetch("/api/users")
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data)
-      setUsers(data.data);
-    });
-  }, [])
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setUsers(data.data);
+      });
+  }, []);
 
   useEffect(() => {
     // CSR Fetching
-    getUser()
-  }, [getUser])
+    getUser();
+  }, [getUser]);
 
   return (
     <div className="p-3">
       <h1 className="text-2xl font-bold mb-3">API Route CSR Fetching</h1>
       <form className="flex flex-row gap-3 p-3" onSubmit={addUser}>
-        <input type="text" className="border border-gray-300 rounded-md p-1.5" placeholder="Name" onChange={(e) => setNewUser("name", e.target.value)} required/>
-        <input type="text" className="border border-gray-300 rounded-md p-1.5" placeholder="Username" onChange={(e) => setNewUser("username", e.target.value)} required/>
-        <input type="text" className="border border-gray-300 rounded-md p-1.5" placeholder="Phone" onChange={(e) => setNewUser("phone", e.target.value)} required />
-        <button type="submit" className="bg-green-400 py-1.5 px-2 text-white shadow-lg hover:bg-green-500 text-sm rounded-md">ADD</button>
-        <button type="button" className="bg-red-400 py-1.5 px-2 text-white shadow-lg hover:bg-red-500 text-sm rounded-md" onClick={resetUser}>RESET</button>
+        <input
+          type="text"
+          className="border border-gray-300 rounded-md p-1.5"
+          placeholder="Name"
+          onChange={(e) => setNewUser("name", e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          className="border border-gray-300 rounded-md p-1.5"
+          placeholder="Username"
+          onChange={(e) => setNewUser("username", e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          className="border border-gray-300 rounded-md p-1.5"
+          placeholder="Phone"
+          onChange={(e) => setNewUser("phone", e.target.value)}
+          required
+        />
+        <button
+          type="submit"
+          className="bg-green-400 py-1.5 px-2 text-white shadow-lg hover:bg-green-500 text-sm rounded-md"
+        >
+          ADD
+        </button>
+        <button
+          type="button"
+          className="bg-red-400 py-1.5 px-2 text-white shadow-lg hover:bg-red-500 text-sm rounded-md"
+          onClick={resetUser}
+        >
+          RESET
+        </button>
       </form>
       <ul className="p-3">
         {users.map((user: User) => (
@@ -71,8 +100,14 @@ export default function Home() {
                 <span className="text-sm">{user.username}</span>
                 <span className="text-sm">{user.phone}</span>
                 <div className="flex">
-                <button type="button" className="bg-blue-400 text-sm rounded-md py-1.5 px-2 text-white shadow-lg hover:bg-blue-500" onClick={() => deleteUser(user.id!)}>DELETE</button>
-              </div>
+                  <button
+                    type="button"
+                    className="bg-blue-400 text-sm rounded-md py-1.5 px-2 text-white shadow-lg hover:bg-blue-500"
+                    onClick={() => deleteUser(user.id!)}
+                  >
+                    DELETE
+                  </button>
+                </div>
               </div>
             </div>
           </li>

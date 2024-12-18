@@ -12,6 +12,6 @@ if (!global.SAMPLE_USER) {
 export const SAMPLE_USER: User[] = global.SAMPLE_USER;
 
 export function reset(): void {
-  const newData = SampleUsers as User[]
+  const newData = SampleUsers as User[];
   global.SAMPLE_USER = [...newData];
 }

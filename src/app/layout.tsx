@@ -16,9 +16,13 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <header className="p-3 bg-gray-50 flex gap-5 items-center">
-          <Link className="text-2xl font-bold" href={"/"}>Next 15</Link>
+          <Link className="text-2xl font-bold" href={"/"}>
+            Next 15
+          </Link>
           <nav className="flex">
-            <Link className="text-sm text-blue-500" href={"/posts"}>posts</Link>
+            <Link className="text-sm text-blue-500" href={"/posts"}>
+              posts
+            </Link>
           </nav>
         </header>
         {children}
